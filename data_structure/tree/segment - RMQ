@@ -1,0 +1,40 @@
+#include<stdio.h>
+#include<algorithm>
+#define INF 1000000001
+using namespace std;
+
+int arr[100001];
+int segT[400001];
+int make_tree(int cur, int s, int e){
+	if (s == e){
+		segT[cur] = arr[s];
+		return arr[s];
+	}
+
+	int mid = s + (e - s) / 2;
+	segT[cur] = min(make_tree(2 * cur + 1, s, mid), make_tree(2 * cur + 2, mid + 1, e));
+	return segT[cur];
+}
+int RMQ(int si, int ei, int sq, int eq, int idx){
+	if (sq <= si && eq >= ei) return segT[idx];
+	if (ei < sq || si > eq) return INF;
+	int mid = si + (ei - si) / 2;
+	return min(RMQ(si, mid, sq, eq, 2 * idx + 1), RMQ(mid + 1, ei, sq, eq, 2 * idx + 2));
+}
+
+int main(){
+	int n, m;
+	scanf("%d %d", &n, &m);
+	for (int i = 0; i < n; i++){
+		scanf("%d", arr + i);
+	}
+	make_tree(0, 0, n - 1);
+
+	while (m--){
+		int a, b;
+		scanf("%d %d", &a, &b);
+		printf("%d\n", RMQ(0, n - 1, a-1, b-1, 0));
+	}
+	return 0;
+}
+//BOJ 10868
