@@ -12,7 +12,7 @@ int l;
 void tree_dfs(int v){
 	for (int i = 0; i < edge[v].size(); i++){
 		int nxt = edge[v][i];
-		if (dep[nxt] == 0){
+		if (dep[nxt] == 0){	//init value 0
 			p[nxt][0] = v;
 			dep[nxt] = dep[v] + 1;
 			tree_dfs(nxt);
