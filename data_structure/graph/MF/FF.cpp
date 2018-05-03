@@ -12,7 +12,7 @@ vector<int> G[N];
 int C[N][N];
 int F[N][N];
 int path[N];
-int S, D    //source, destination
+int S, D;    //source, destination
 
 bool dfs(int s){
 	if (s == 1) return 1;
