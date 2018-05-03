@@ -1,4 +1,3 @@
-//not complete
 /*
 Push-Relabel algorithm
 input: source, destination, (graph - adjacent list, capacity, flow, path)
@@ -26,22 +25,22 @@ int PR(int s, int d){
 		exc[i] = C[s][i];	
 	}
 	//push & relabel
-	for (int sz = 0;;) {
-		if (sz == 0) {
-			for (int i = 0; i < N; ++i)
-			if (i != s && i != d && exc[i] > 0) {
-				if (sz != 0 && h[i] > h[maxh[0]])
-					sz = 0;
-				maxh[sz++] = i;
-			}
+	for (int sz = 0;;) {	
+		//find excess flow
+		for (int i = 0; i < N; ++i)
+		if (i != s && i != d && exc[i] > 0) {	// if i node excess (not s, d)
+			if (sz != 0 && h[i] > h[maxh[0]])	// store location on maxh (order: dec)				sz = 0;							// ie. maxh[0] = highest loc, maxh[1] = secondary highest loc, ...
+			maxh[sz++] = i;						
 		}
-		if (sz == 0)
+	
+		if (sz == 0) //no excess flow
 			break;
-		while (sz != 0) {
+		
+		while (sz != 0) {	//while all push excess flow
 			int i = maxh[sz - 1];
 			bool pushed = false;
 			for (int j = 0; j < N && exc[i] != 0; ++j) {
-				if (h[i] == h[j] + 1 && C[i][j] - F[i][j] > 0) {
+				if (h[i] == h[j] + 1 && C[i][j] - F[i][j] > 0) {	// if more high and exist flow -> pushing
 					int df = min(C[i][j] - F[i][j], exc[i]);
 					F[i][j] += df;
 					F[j][i] -= df;
@@ -52,7 +51,7 @@ int PR(int s, int d){
 					pushed = true;
 				}
 			}
-			if (!pushed) {
+			if (!pushed) {		//labeling (updating height)
 				h[i] = INT_MAX;
 				for (int j = 0; j < N; ++j)
 				if (h[i] > h[j] + 1 && C[i][j] - F[i][j] > 0)
@@ -79,3 +78,6 @@ int main(){
 	cout << PR(S,D);
 	return 0;
 }
+//ref:
+//https://sites.google.com/site/indy256/algo/preflow
+//https://www.geeksforgeeks.org/push-relabel-algorithm-set-2-implementation/
