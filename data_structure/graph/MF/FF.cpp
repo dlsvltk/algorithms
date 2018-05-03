@@ -1,5 +1,5 @@
 /*
-Ford-Fulkersoon algorithm
+Ford-Fulkerson algorithm
 input: source, destination, (graph - adjacent list, capacity, flow, path)
 output: maximum flow
 */
